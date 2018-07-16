@@ -43,7 +43,9 @@ class User implements UserInterface, \Serializable
     private $roles;
 
     /**
-     * @ORM\Column(type="string", length=191, nullable=true)
+     * @param mixed
+     * je ne veux pas persister le mdp en clair,
+     * donc je ne le déclare pas en column doctrine
      */
     private $plainPassword;
 
