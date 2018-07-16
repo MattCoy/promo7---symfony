@@ -1,0 +1,10 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+  #path: /bonjour #le chemin ( route) que l'on veut  faire correspondre
+  #controller: App\Controller\HomeController::bonjour
+  #le controller à appeler si la route /bonjour est appelée
+
+logout:  # on a juste à déclarer la route de déconnexion
+  path: /logout

@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block titlepage %}Article{% endblock %}
+
+{% block content %}
+	
+	 <article>
+	     {{ article.title }}, publie le {{ article.datepubli|date('d/m/Y') }} par {{ article.author }}
+	     <p>{{ article.content }}</p>
+	</article>
+
+{% endblock %}

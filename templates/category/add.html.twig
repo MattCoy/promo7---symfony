@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Ajout de catégorie{% endblock %}
+
+{% block content %}
+
+	{{ form_start(form) }} {# permet de créer la balise <form> #}
+	{{ form_widget(form) }} {# permet de créer les champs #}
+	{{ form_end(form) }} {# va fermer la balise </form> en plus d'autres chose que l'on verra ensuite #}
+
+{% endblock %}

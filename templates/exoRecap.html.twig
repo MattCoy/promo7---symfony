@@ -1,0 +1,23 @@
+	{% extends 'layout.html.twig' %}
+
+	{% block title %}Exo recap J1{% endblock %}
+	
+	{% block titlepage %}Exercice de récapitulation{% endblock %}
+
+	{% block content %}
+	
+		{% if message == "" %}
+			vous avez demandé : {{ produit }}, prix {{ prix }} € pour {{ genre }}
+
+			{% if genre == "homme"%}
+			<img src="{{ asset('img/homme.jpg') }}">
+			{% else %}
+			<img src="{{ asset('img/femme.jpg') }}">
+			{% endif %}
+
+		{% else %}
+			{{ message }}
+		{% endif %}
+
+	{% endblock %}
+	

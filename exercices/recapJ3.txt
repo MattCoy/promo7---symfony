@@ -1,0 +1,11 @@
+Créer une entité Message
+ - sujet (string 255)
+ - contenu (text)
+ - email (string 255)
+ - dateenvoi (datetime)
+ - nom (string 255)
+
+ Créer les pages qui vont permettre :
+  - d'envoyer un message via un formulaire
+  - lister les messages reçus (nom, dateenvoi, sujet, lien voir)
+  - voir un message

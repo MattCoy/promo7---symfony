@@ -1,0 +1,30 @@
+	{# on utilise le mot clé extends qui permet de définir de quel layout cette vue va hériter
+	Comme pour les classes php, une vue ne peut hériter que d'un layout
+	Par contre, une vue peut hériter d'un layout qui hérite lui même d'un autre layout
+	Twig va chercher directement les vues dans templates/ #}
+
+	{% extends 'layout.html.twig' %}
+
+	{# on rempli les blocks définis dans le layout #}
+
+	{% block title %}Page d'accueil{% endblock %}
+
+	{% block titlepage %}Page d'accueil en h1{% endblock %}
+
+	{% block content %}
+		{#
+			Twig : 
+		{{ pseudo }} sert à afficher le contenu d'une variable (ici pseudo) => équivalent de <?= $pseudo ?>
+		{% %} sert à faire un traitement :une boucle , une condition
+		{# #} {# commentaires 	#}
+
+		bonjour {{ nom }}
+
+		{# je peux inclure des templates (= vues twig) avec include() :si j'ai du code qui doit se retrouver sur plusieurs pages, cela vite la duplication de code #}
+		
+		{{ include('includes/bonjour.html.twig') }}
+	{% endblock %}
+
+	{% block javascript %}
+		<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+	{% endblock %}

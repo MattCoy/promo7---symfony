@@ -1,0 +1,24 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Ajout de message{% endblock %}
+
+{% block content %}
+
+    {# pour afficher tous type de messages #}
+    {% for label, messages in app.flashes %}
+
+        {% for message in messages %}
+
+			<div class="alert alert-{{ label }}">
+                {{ message }}
+			</div>
+
+        {% endfor%}
+
+    {% endfor %}
+
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+	{{ form_end(form) }}
+
+{% endblock %}

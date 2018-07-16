@@ -1,0 +1,19 @@
+	{% extends 'layout.html.twig' %}
+
+	{% block title %}Page d'accueil{% endblock %}
+	
+	{% block titlepage %}Page exercice 2{% endblock %}
+
+	{% block content %}
+	{# je mets un s uniquement si age est supérieur à 1#}
+
+	Bonjour {{ pseudo }}, tu as {{ age }} an{% if age > 1%}s{% endif %}
+
+	{{ include('includes/bonjour.html.twig') }}
+
+	<a href="{{ path('home') }}">Accueil</a>
+	{# pour générer une url , on utilise la fonction path() de twig, ce qui permet d'éviter de la mettre en dur #}
+	<a href="/bonjour">Bonjour</a>
+
+	{% endblock %}
+	

@@ -1,0 +1,51 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        mon_user_provider:
+            entity: # on utilise une entity pour gérer les users
+                class: App\Entity\User
+                property: username # la propriété utilisée pour le login
+
+        #in_memory: { memory: ~ } # memory veut dire en en dur : pas viable
+    
+    encoders: #on lui indique comment encoder les mdp
+        App\Entity\User : bcrypt
+
+    firewalls: # les firewall vont nous permettre de définir les pages accesibles aux utilisateur connectés
+        dev: #ne pas toucher, il permet d'accéder au web profiler sur toutes les pages
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main: #le firewall sur lequel on va travailler
+            anonymous: true #siginifie que les pages seront accessibles aux utilisateurs anonymes
+
+            form_login:
+                login_path: login #le formulaire est dispo à /login
+                check_path: login #on fait le traitement sur /login
+
+            #pour se déconnecter
+            logout: 
+                path:   /logout 
+                target: / 
+                # path chemin utilisé pour se déconnecter
+                # target chemin de redirection quand c'est fait
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: true
+            # https://symfony.com/doc/current/security/form_login_setup.html
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        #tous les url commençant par admin/ ne seront accessible qu'aux
+        # utilisateurs ayant le rôle admin
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
+
+
+    #on peut définir des hierarchies entre les roles
+    role_hierarchy:
+        ROLE_AUTEUR: ROLE_USER #si j'ai ROLE_AUTEUR, j'ai aussi ROLE_USER
+        ROLE_ADMIN: [ROLE_AUTEUR, ROLE_MODERATEUR] # ROLE_ADMIN aura aussi ROLE_MODERATEUR et ROLE_AUTEUR, donc aussi ROLE_USER

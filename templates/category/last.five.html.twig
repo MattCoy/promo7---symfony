@@ -1,0 +1,36 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}liste des catégories{% endblock %}
+
+{% block content %}
+
+	{# on vérifie s'il y a un message flash de type success 
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
+
+	#}
+
+	{# pour afficher tous type de messages #}
+	{% for label, messages in app.flashes %}
+
+		{% for message in messages %}
+
+			<div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+
+		{% endfor%}
+
+	{% endfor %}
+
+	{%  for category in categories %}
+
+		{{dump(category)}}
+		{{ category.libelle }}<br>
+		
+	{% endfor %}
+
+{% endblock %}

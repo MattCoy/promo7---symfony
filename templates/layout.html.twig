@@ -1,0 +1,85 @@
+{# mon layout contient tous les éléments communs aux pages de mon site #}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	{#je crée des blocks qui vont être remplis dynamiquement avec les infos propres à chaque page#}
+	<title>{% block title %}{% endblock%}</title>
+    {% block css %}
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/sticky-footer.css') }}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    {% endblock %}
+</head>
+<body>	
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Symfony</a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link"  href="{{ path('home') }}">Accueil</a>
+            </li>
+		    <li class="nav-item">
+		      <a class="nav-link" href="{{ path('all-articles') }}">liste des articles</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('add-article') }}">ajouter un article</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('all-categories') }}">liste des categories</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('add-category') }}">ajouter une catégorie</a>
+            </li>
+            {# l'élément de menu n'apparaîtra que si l'utilisateur est connecté #}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('logout') }}">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('login') }}">Login</a>
+            </li>
+            {% endif %}
+            
+            {# l'élément de menu n'apparaîtra que si l'utilisateur est connecté et a le role admin #}
+            {% if is_granted('ROLE_ADMIN') %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('admin') }}">zone admin</a>
+            </li>
+            {% endif %}
+		<!-- <a href="{{ path('bonjour2', {nom: "tata"}) }}">Bonjour 2 </a>
+		<a href="{{ path('exo3', {age: 33, pseudo:"toto"}) }}">Age et pseudo </a>
+		<a href="{{ path('bonjour') }}">Bonjour </a>
+		<a href="{{ path('cava') }}">Comment ça va? </a>
+		<a href="{{ path('heure') }}">heure </a>
+		<a href="{{ path('exoRecap', {genre:"femme", prix:100, produit:"veste"}) }}">exo recap</a> -->
+        </ul>
+    </nav>
+    <h1>{% block titlepage %}{% endblock%}</h1>
+	<div class="container">
+		{# ce block contiendra le contenu de la page appelée #}
+		{% block content %}{% endblock %}
+		
+	</div>
+
+	<!-- Footer -->
+    <footer class="footer" style="background-color: #343a40!important; color: whitesmoke">
+
+        <div class="container">
+        <span class="text-muted">Place sticky footer content here.</span>
+      </div>
+
+    </footer>
+    <!-- Footer -->
+    
+	<script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+	{% block javascript %}{% endblock %}
+</body>
+</html>

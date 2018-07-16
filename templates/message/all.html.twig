@@ -1,0 +1,32 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Liste des messages{% endblock %}
+
+
+{% block content %}
+	
+	{# pour afficher tous type de messages #}
+	{% for label, messages in app.flashes %}
+
+		{% for message in messages %}
+
+			<div class="alert alert-{{ label }}">
+	            {{ message }}
+	        </div>
+
+		{% endfor%}
+
+	{% endfor %}
+	
+	<ul>
+	{% for message in messages %}
+
+	 <li>
+	     {{ message.sujet }}, envoyé le {{ message.dateenvoi|date('d/m/Y') }}
+	     <br>
+	     <a href="{{ path('message', {id: message.id}) }}">Voir</a>
+	</li>
+	{% endfor %}
+	</ul>
+
+{% endblock %}

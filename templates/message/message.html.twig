@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Message{% endblock %}
+
+{% block titlepage %}Message{% endblock %}
+
+{% block content %}
+	
+	 <article>
+	     {{ message.sujet }}, publie le {{ message.dateenvoi|date('d/m/Y') }} par {{ message.nom }}
+	     <p>{{ message.contenu }}</p>
+	</article>
+
+{% endblock %}

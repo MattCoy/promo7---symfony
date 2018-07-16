@@ -1,0 +1,33 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}ajout d'article{% endblock %}
+
+
+{% block content %}
+	
+	{# pour afficher tous type de messages #}
+	{% for label, messages in app.flashes %}
+
+		{% for message in messages %}
+
+			<div class="alert alert-{{ label }}">
+	            {{ message }}
+	        </div>
+
+		{% endfor%}
+
+	{% endfor %}
+	
+	{# équivalent twig de la boucle foreach #}
+	{% for article in articles %}
+
+	{# à chaque tour de boucle, on récupère article qui ici est un objet 
+	 pour accéder au titre, article.title #}
+	 <article>
+	     {{ article.title }}, publie le {{ article.datepubli|date('d/m/Y') }}
+	     <br>
+	     <a href="{{ path('show', {id: article.id}) }}">Voir</a>
+	</article>
+	{% endfor %}
+
+{% endblock %}

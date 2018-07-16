@@ -1,0 +1,33 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}liste des catégories{% endblock %}
+
+{% block content %}
+
+	{# pour afficher tous type de messages #}
+	{% for label, messages in app.flashes %}
+
+		{% for message in messages %}
+
+			<div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+
+		{% endfor%}
+
+	{% endfor %}
+
+
+	<ul class="list-group">
+		{%  for category in categories %}
+
+			<li class="list-group-item">{{ category.libelle }} | 
+				<a href="{{ path('category-update', {id: category.id}) }}">
+					<i class="fa fa-edit"></i>
+				</a>
+			</li>
+
+		{% endfor %}
+	</ul>
+
+{% endblock %}

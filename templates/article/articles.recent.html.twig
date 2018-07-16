@@ -1,0 +1,40 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Articles récents{% endblock %}
+
+{% block titlepage %}Articles récents{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-6">
+			{# équivalent twig de la boucle foreach #}
+
+			{{ dump(articles) }}
+			{% for article in articles %}
+
+			{# à chaque tour de boucle, on récupère article qui ici est un objet 
+			 pour accéder au titre, article.title #}
+			 <article>
+			     {{ article.title }}, publie le {{ article.date_publi|date('d/m/Y') }}
+			     <br>
+			     <a href="{{ path('show', {id: article.id}) }}">Voir</a>
+			</article>
+			{% endfor %}
+		</div>
+		<div class="col-md-6">
+			{# équivalent twig de la boucle foreach #}
+
+			{{ dump(articles2) }}
+			{% for article in articles2 %}
+
+			{# à chaque tour de boucle, on récupère article qui ici est un objet 
+			 pour accéder au titre, article.title #}
+			 <article>
+			     {{ article.title }}, publie le {{ article.datepubli|date('d/m/Y') }}
+			     <br>
+			     <a href="{{ path('show', {id: article.id}) }}">Voir</a>
+			</article>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

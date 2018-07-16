@@ -1,0 +1,25 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}ajout d'article{% endblock %}
+
+{% block content %}
+	
+	{{ form_start(form) }}
+
+		{# on peut générer le formulaire champ par champ pour pouvoir les customiser individuellement #}
+
+		{{ form_label(form.title, 'Titre de l\'article', {'label_attr' : {'class' : 'ma-classe'}})}}
+
+		{{ form_errors(form.title) }}{# va générer la div qui contiendra les éventuelles erreurs #} 
+
+		{{ form_widget(form.title, {'attr': {'class': 'form-control-lg', 'placeholder': 'rentrez un titre svp'}})}}      {# va générer le champ title #}
+
+		{# je peux rajouter du html,css... #}
+		<div class="autre-classe">
+
+			{{ form_row(form.content, {'label': 'contenu de l\'article', 'attr': {'class': 'form-control-lg', 'placeholder': 'soyez inventif svp'}})}}
+
+			{# va générer le label , les erreurs et le champ Content en une instruction #}
+		</div>
+	{{ form_end(form) }} {# génère tous les champs non spécifiés plus haut et ferme le </form>#}
+{% endblock %}
