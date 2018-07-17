@@ -7,7 +7,7 @@
 {% block content %}
 	
 	 <article>
-	     {{ article.title }}, publie le {{ article.datepubli|date('d/m/Y') }} par {{ article.author }}
+	     {{ article.title }}, publie le {{ article.datepubli|date('d/m/Y') }} par {{ article.user.username }}
 	     <p>{{ article.content }}</p>
 	</article>
 

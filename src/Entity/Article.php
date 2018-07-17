@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\User;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
@@ -36,10 +37,10 @@ class Article
     private $date_publi;
 
     /**
-    *@ORM\Column(type="string", length=255, nullable=true)
-    * @Assert\NotBlank()
+    *On va expliquer à doctrine que cette propriété fait référence à l'entité user et qu'il s'agit dune relation ManyToOne
+    *@ORM\ManyToOne(targetEntity="App\Entity\User")
     */
-    private $author;
+    private $user;
 
     public function getId()
     {
@@ -82,14 +83,14 @@ class Article
         return $this;
     }
 
-    public function getAuthor(): ?string
+    public function getUser(): ?User
     {
-        return $this->author;
+        return $this->user;
     }
 
-    public function setAuthor(string $author): self
+    public function setUser(User $user): self
     {
-        $this->author = $author;
+        $this->user = $user;
 
         return $this;
     }

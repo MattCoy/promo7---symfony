@@ -28,7 +28,9 @@ class ArticleRepository extends ServiceEntityRepository
     {
         //on récupère l'objet pdo qui permet de se connecter à la base => le résultat du try catch
         $connexion = $this->getEntityManager()->getConnection();
-        $sql = 'SELECT * FROM article 
+        $sql = 'SELECT article.id as idArticle, title, content, date_publi, user.*
+                     FROM article INNER JOIN user 
+                    ON article.user_id = user.id
                     WHERE date_publi > :date_post 
                     ORDER BY date_publi DESC';
         $select = $connexion->prepare($sql);
@@ -47,6 +49,8 @@ class ArticleRepository extends ServiceEntityRepository
     public function findAllpostedAfter2($date_post): array
     {
         $querybuilder = $this->createQueryBuilder('a')
+                        ->innerJoin('a.user', 'u')
+                        ->addSelect('u')
                         ->andWhere('a.date_publi > :date_post')
                         ->setparameter('date_post', $date_post)
                         ->orderBy('a.date_publi', 'DESC')
@@ -54,6 +58,26 @@ class ArticleRepository extends ServiceEntityRepository
         //retourne un tableau d'objets trouvés
         return $querybuilder->execute();
     }
+
+    /*
+    On écrit une méthode qui va faire la jointure entre les articles et les users, de façon a tout récupérer d'un coup
+    */
+    public function myFindAll(){
+
+        $querybuilder = $this->createQuerybuilder('a')
+                        //on fait la jointure
+                        //a.user fait référence à la propriété user del'entité article
+                        ->innerJoin('a.user', 'u')
+                        //on récupère les données de l'utilisateur associé pour éviter les requêtes supplémentaire
+                        ->addSelect('u')
+                        //on peut trier
+                        ->orderBy('a.date_publi', 'DESC')
+                        ->getQuery();
+
+        return $querybuilder->execute();
+
+    }
+
 
 //    /**
 //     * @return Article[] Returns an array of Article objects

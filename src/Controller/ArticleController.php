@@ -35,6 +35,8 @@ class ArticleController extends Controller
     public function addArticle(Request $request)
     {
 
+        $this->denyAccessunlessgranted('IS_AUTHENTICATED_FULLY');
+
         $article = new Article();
 
     	$form = $this->createForm(ArticleType::class, $article);
@@ -49,6 +51,9 @@ class ArticleController extends Controller
             //ici, on charge le formulaire de remplir notre objet catégorie avec les données
 
             $article = $form->getData();
+
+            //l'utilisateur connecté est l'auteur de l'article
+            $article->setUser($this->getUser());
 
             //je n'ai plus qu'à persister ma catégorie et faire un flush
             $entityManager = $this->getDoctrine()->getManager(); 
@@ -81,7 +86,7 @@ class ArticleController extends Controller
 
         $repository = $this->getDoctrine()->getRepository(Article::class);
 
-        $articles = $repository->findAll();
+        $articles = $repository->myFindAll();
 
         return $this->render('article/articles.html.twig',
                                 array('articles'=>$articles)
@@ -124,7 +129,7 @@ class ArticleController extends Controller
 
     public function showPostedAfter(){
         //pour l'instant on met la date en dur
-        $date_post = "2018-07-11 14:00:00";
+        $date_post = "2000-07-11 14:00:00";
         //on appelle le repository de notre entité Article
         $repository = $this->getDoctrine()->getRepository(Article::class);
         //on execute la méthode custom et on récupère les articles trouvés

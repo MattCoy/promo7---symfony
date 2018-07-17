@@ -12,12 +12,12 @@
 			{{ dump(articles) }}
 			{% for article in articles %}
 
-			{# à chaque tour de boucle, on récupère article qui ici est un objet 
+			{# à chaque tour de boucle, on récupère article qui ici est un tableau 
 			 pour accéder au titre, article.title #}
 			 <article>
-			     {{ article.title }}, publie le {{ article.date_publi|date('d/m/Y') }}
+			     {{ article.title }}, publie par {{ article.username }} le {{ article.date_publi|date('d/m/Y') }}
 			     <br>
-			     <a href="{{ path('show', {id: article.id}) }}">Voir</a>
+			     <a href="{{ path('show', {id: article.idArticle}) }}">Voir</a>
 			</article>
 			{% endfor %}
 		</div>
@@ -30,7 +30,7 @@
 			{# à chaque tour de boucle, on récupère article qui ici est un objet 
 			 pour accéder au titre, article.title #}
 			 <article>
-			     {{ article.title }}, publie le {{ article.datepubli|date('d/m/Y') }}
+			     {{ article.title }}, publie par {{ article.user.username}} le {{ article.datepubli|date('d/m/Y') }}
 			     <br>
 			     <a href="{{ path('show', {id: article.id}) }}">Voir</a>
 			</article>

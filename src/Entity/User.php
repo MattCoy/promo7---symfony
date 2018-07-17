@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -43,6 +45,13 @@ class User implements UserInterface, \Serializable
     private $roles;
 
     /**
+    *on indique à doctrine la relation OneToMany
+    *@ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="user")
+    * ceci ne va pas rajouter de champ dans la table
+    */
+    private $articles;
+
+    /**
      * @param mixed
      * je ne veux pas persister le mdp en clair,
      * donc je ne le déclare pas en column doctrine
@@ -52,6 +61,8 @@ class User implements UserInterface, \Serializable
     //on écrit le constructeur pour mettre isActive  true lors de l'iinstanciation
     public function __construct(){
         $this->isActive = true; //par défaut, un user est actif
+
+        $this->articles = new ArrayCollection();
     }
 
     public function getId()
@@ -164,5 +175,12 @@ class User implements UserInterface, \Serializable
         $this->plainPassword = $plainPassword;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Article[]
+     */
+    public function getArticles(): Collection{
+        return $this->articles;
     }
 }

@@ -36,34 +36,9 @@ class TestData extends Fixture
 
         }
 
-        //je crée un tableau d'auteurs
-        $auteurs = ['Verlaine', "Hugo", 'Voltaire', 'Dumas', 'Duras', 'Garcia Marquez', 'Nabila'];
 
-        //on crée 30 articles
-        for($i=1;$i<=30;$i++){
-
-        	$article = new Article();
-        	$article->setTitle('Titre ' . $i);
-        	$article->setContent('Contenu ' . $i . ' vraiment très intéressant');
-
-        	//on va générer des dates aléatoirement
-
-        	//Generate a timestamp using mt_rand.
-            $timestamp = mt_rand(1, time());
-
-            //Format that timestamp into a readable date string.
-            $randomDate = date("Y-m-d H:i:s", $timestamp);
-
-            //on l'envoie dans l'article
-            $article->setDatePubli(new \DateTime($randomDate));
-
-            //on chosit l'auteur aléatoirement dans le tableau défini avant la boucle
-            $article->setAuthor($auteurs[array_rand($auteurs)]);
-
-            $manager->persist($article);
-
-        }
-
+        //je crée un tableau d'auteurs vide
+        $auteurs = [];
 
         //ajout de 10 utilisateurs
         for($i=1;$i<=10;$i++){
@@ -88,6 +63,34 @@ class TestData extends Fixture
 
             $manager->persist($user);
 
+            //je remplis mon tableau d'auteurs avec l'utilisateur nouvellement créé
+            $auteurs[] = $user;
+
+        }
+
+
+        //on crée 30 articles
+        for($i=1;$i<=30;$i++){
+
+        	$article = new Article();
+        	$article->setTitle('Titre ' . $i);
+        	$article->setContent('Contenu ' . $i . ' vraiment très intéressant');
+
+        	//on va générer des dates aléatoirement
+
+        	//Generate a timestamp using mt_rand.
+            $timestamp = mt_rand(1, time());
+
+            //Format that timestamp into a readable date string.
+            $randomDate = date("Y-m-d H:i:s", $timestamp);
+
+            //on l'envoie dans l'article
+            $article->setDatePubli(new \DateTime($randomDate));
+
+            //on chosit l'auteur aléatoirement dans le tableau défini avant la boucle
+            $article->setUser($auteurs[array_rand($auteurs)]);
+
+            $manager->persist($article);
 
         }
 

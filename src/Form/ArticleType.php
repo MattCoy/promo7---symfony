@@ -19,7 +19,6 @@ class ArticleType extends AbstractType
             ->add('title', TextType::class)
             ->add('content', TextareaType::class)
             ->add('date_publi', DateTimeType::class)
-            ->add('author', TextType::class)
             ->add('save', SubmitType::class)
         ;
     }
