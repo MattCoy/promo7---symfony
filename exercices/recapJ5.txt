@@ -1,0 +1,9 @@
+Créer une relation entre l'entité Article et l'entité Category
+ Un article ne peut appartenir qu'à une catégorie : Article ManyToOne Categorie
+ Une categorie peut référencer plusieurs articles : Category OneToMany Article
+
+Modifier les datafixtures
+
+Sur la fiche d'un article, afficher la catégorie à laquelle il appartient
+Créer une page listant les catégories, 
+et un lien vers la fiche catégorie avec la liste des articles appartenant à cette catégorie

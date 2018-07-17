@@ -161,5 +161,16 @@ class CategoryController extends Controller
 
     }
 
+    /**
+    *@Route("/category/{id}", name="show-category", requirements={"id"="\d+"})
+    */
+    public function  show(Category $category){
+
+       return $this->render('category/category.html.twig',
+                            array('category' => $category)
+        );
+
+    }
+
 
 }

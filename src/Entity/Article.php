@@ -38,9 +38,15 @@ class Article
 
     /**
     *On va expliquer à doctrine que cette propriété fait référence à l'entité user et qu'il s'agit dune relation ManyToOne
-    *@ORM\ManyToOne(targetEntity="App\Entity\User")
+    *@ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
     */
     private $user;
+
+    /**
+    *
+    *@ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="articles")
+    */
+    private $category;
 
     public function getId()
     {
@@ -91,6 +97,18 @@ class Article
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

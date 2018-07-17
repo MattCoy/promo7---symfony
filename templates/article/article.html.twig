@@ -5,7 +5,7 @@
 {% block titlepage %}Article{% endblock %}
 
 {% block content %}
-	
+	<h1>{{ article.category.libelle }}</h1>
 	 <article>
 	     {{ article.title }}, publie le {{ article.datepubli|date('d/m/Y') }} par {{ article.user.username }}
 	     <p>{{ article.content }}</p>

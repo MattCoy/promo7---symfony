@@ -26,6 +26,8 @@ class TestData extends Fixture
 
     	$cat = ['science', 'politique', 'littérature', 'sport', 'écologie', 'petites personnes', 'jardinage', 'pétanque', 'running', 'voyage'];
 
+        $objetsCat = [];
+
         for($i=0;$i<=9;$i++){
 
         	$categorie = new Category();
@@ -33,6 +35,9 @@ class TestData extends Fixture
         	//j'utilise le compteur pour chercher la valeur dans le tableau cat
         	$categorie->setLibelle($cat[$i]);
         	$manager->persist($categorie);
+
+            //je rempli mon tableau avec les objest de classe Category
+            $objetsCat[] = $categorie;
 
         }
 
@@ -89,6 +94,9 @@ class TestData extends Fixture
 
             //on chosit l'auteur aléatoirement dans le tableau défini avant la boucle
             $article->setUser($auteurs[array_rand($auteurs)]);
+
+            //on chosit la catégorie aléatoirement dans le tableau défini avant la boucle
+            $article->setCategory($objetsCat[array_rand($objetsCat)]);
 
             $manager->persist($article);
 
