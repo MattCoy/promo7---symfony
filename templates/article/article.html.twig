@@ -7,7 +7,7 @@
 {% block content %}
 	<h1>{{ article.category.libelle }}</h1>
 	 <article>
-	     {{ article.title }}, publie le {{ article.datepubli|date('d/m/Y') }} par {{ article.user.username }}
+	     {{ article.title }}, publie le {{ article.datepubli|date('d/m/Y') }} par <a href="{{ path('show-user', {id: article.user.id}) }}">{{ article.user.username }}</a>
 	     <p>{{ article.content }}</p>
 	</article>
 

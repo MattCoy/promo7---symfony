@@ -15,7 +15,9 @@ class ArticleUserType extends AbstractType
         $builder
             //je récupère les champs générés dans ArticleType
             ->add('article', ArticleType::class,
-                        array('data_class' => Article::class)
+                        array('data_class' => Article::class,
+                                'label' => false
+                        )
                 )
             ->add('envoyer', SubmitType::class)
         ;

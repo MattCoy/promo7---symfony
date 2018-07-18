@@ -4,7 +4,7 @@
 {% block titlepage %}Admin | Accueil{% endblock %}
 
 {% block content %}
-
+    <a href="{{ path('admin-article-add') }}">Ajouter un article</a>
     {% for article in articles %}
     <article>{{ article.title }} - <a href="{{ path('admin-article-update', {id: article.id}) }}"><i class="fa fa-edit"></i></a></article>
     {%  endfor %}

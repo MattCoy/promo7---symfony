@@ -19,7 +19,9 @@ class ArticleAdminType extends AbstractType
             //je récupère les champs générés dans ArticleType
         //je n'ai pas besoin du use pour ArticleType car la classe est déclarée dans le même namespace
             ->add('article', ArticleType::class,
-                        array('data_class' => Article::class)
+                        array('data_class' => Article::class,
+                                'label' =>false
+                        )
                 )
             //je rajoute ceux que je veux
             ->add('date_publi', DateTimeType::class)

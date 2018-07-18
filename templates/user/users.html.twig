@@ -1,0 +1,32 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+
+{% block content %}
+	
+	{# pour afficher tous type de messages #}
+	{% for label, messages in app.flashes %}
+
+		{% for message in messages %}
+
+			<div class="alert alert-{{ label }}">
+	            {{ message }}
+	        </div>
+
+		{% endfor%}
+
+	{% endfor %}
+	<ul class="list-group">
+		{% for user in users %}
+
+		{# à chaque tour de boucle, on récupère article qui ici est un objet 
+		 pour accéder au titre, article.title #}
+		 <li class="list-group-item">
+		     {{ user.username }} - 
+		     <a href="{{ path('show-user', {id: user.id}) }}"><i class="fa fa-eye"></i></a>
+		</li>
+		{% endfor %}
+	</ul>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+	{% extends 'layout.html.twig' %}
+
+	{% block title %}user {% endblock %}
+
+	{% block titlepage %}{{ user.username }}{% endblock %}
+
+	{% block content %}
+
+	email : {{ user.email }} 
+	
+
+	{% for article in user.articles %}
+	<article>
+		{{ article.title}} | <a href="{{ path('show', {id: article.id}) }}"><i class="fa fa-eye"></i></a>
+	</article>
+	{% endfor %}
+
+	{% endblock %}
