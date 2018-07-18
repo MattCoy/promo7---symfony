@@ -6,7 +6,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Article as Article;
-use App\Form\ArticleType;
+use App\Form\ArticleUserType;
 
 class ArticleController extends Controller
 {
@@ -39,7 +39,7 @@ class ArticleController extends Controller
 
         $article = new Article();
 
-    	$form = $this->createForm(ArticleType::class, $article);
+    	$form = $this->createForm(ArticleUserType::class, $article);
 
         //je vais demander à mon objet form de gérer les données envoyées par l'utilisateur
          $form->handleRequest($request);
@@ -54,6 +54,9 @@ class ArticleController extends Controller
 
             //l'utilisateur connecté est l'auteur de l'article
             $article->setUser($this->getUser());
+
+            //on fixe la date de publication
+            $article->setDatePubli(new \DateTime(date('Y-m-d H:i:s')));
 
             //je n'ai plus qu'à persister ma catégorie et faire un flush
             $entityManager = $this->getDoctrine()->getManager(); 
@@ -159,7 +162,7 @@ class ArticleController extends Controller
     public function updateArticle(Article $article, request $request){
 
 
-        $form = $this->createForm(ArticleType::class, $article);
+        $form = $this->createForm(ArticleUserType::class, $article);
 
         //je vais demander à mon objet form de gérer les données envoyées par l'utilisateur
          $form->handleRequest($request);
