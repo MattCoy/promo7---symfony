@@ -26,7 +26,7 @@
 	 <article>
 	     {{ article.title }}, publie par {{ article.user.username }} le {{ article.datepubli|date('d/m/Y') }}
 	     <br>
-	     <a href="{{ path('show', {id: article.id}) }}">Voir</a>
+		 <a href="{{ path('show', {id: article.id}) }}"><i class="fa fa-eye"></i></a> | <a href="{{ path('article-update', {id: article.id}) }}"><i class="fa fa-edit"></i></a>
 	</article>
 	{% endfor %}
 

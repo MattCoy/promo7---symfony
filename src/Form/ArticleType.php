@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ArticleType extends AbstractType
 {
@@ -26,6 +27,10 @@ class ArticleType extends AbstractType
                             'choice_label' => 'libelle'
                         )
                     )
+            ->add('image', FileType::class, 
+                array('label' => 'ajoutez une image svp',
+                        'required' => false
+            ))
         ;
     }
 

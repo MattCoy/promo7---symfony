@@ -7,6 +7,16 @@
 {% block content %}
 	<h1>{{ article.category.libelle }}</h1>
 	 <article>
+	 	
+	 	{# on n'affiche l'image que si article.image n'est pas vide => vaut true #}
+	 	{% if article.image %}
+
+	 	{# pour afficher l'image, on utilise asset() et on concatène le chemin avec le nom du fichier  (on concatène avec ~) #}
+	 	<img class="img-fluid" src="{{ asset('uploads/articles/images/' ~ article.image) }}">
+
+	 	{% endif %}
+
+
 	     {{ article.title }}, publie le {{ article.datepubli|date('d/m/Y') }} par <a href="{{ path('show-user', {id: article.user.id}) }}">{{ article.user.username }}</a>
 	     <p>{{ article.content }}</p>
 	</article>

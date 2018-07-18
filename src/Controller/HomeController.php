@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 //declaration de la classe
 //pour pouvoir utiliser Twig, on doit faire hériter notre classe de la classe Controller
@@ -185,6 +186,34 @@ class HomeController extends Controller
 		dump($moi);
 
 		return $this->render('user.info.html.twig', array('moi' => $moi));
+
+	}
+
+	/**
+	*@Route("/test-request/", name="test-request")
+	*Controleur de test pour manipuler $_GET et $_POST
+	*/
+
+	public function testRequest(Request $request){
+
+		//pour accéder à $_GET
+		$get =$request->query->all();
+
+		//si on attend un paramètre, par exemple ?message=bonjourtoto
+		//s'il ne trouve pas $_GET['message'], il va le remplir avec la valeur par défaut envoyée en deuxième paramètre
+		$message = $request->query->get('message', 'pas de message'); //=> $_GET['message']
+
+		dump($get);
+
+		//pour récupérer $_POST
+		$post = $request->request->all();
+
+		//pour récupérer $_FILES
+		$files = $request->files->all();
+
+		return $this->render('tests/request.html.twig',
+							array('message' => $message)
+		);
 
 	}
 

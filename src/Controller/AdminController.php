@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Article;
 use App\Form\ArticleAdminType;
+use Symfony\Component\HttpFoundation\File\File;
 
 class AdminController extends Controller
 {
@@ -45,6 +46,21 @@ class AdminController extends Controller
 
             $article = $form->getData();
 
+            //ceci va contenir l'image envoyée
+            $file = $article->getImage();
+
+            //on génère un nouveau nom
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+
+            //pour upload définitivement le ficher
+            $file->move(
+                    $this->getparameter('articles_image_directory'),
+                    $fileName
+            );
+
+            //on met à jour la propriété image, qui doit contenir le nom du fichier et pas le fichier lui même pour pouvoir persister l'article
+            $article->setImage($fileName);
+
             //je n'ai plus qu'à persister ma catégorie et faire un flush
             $entityManager = $this->getDoctrine()->getManager(); 
 
@@ -72,6 +88,16 @@ class AdminController extends Controller
 
     public function updateArticle(Article $article, Request $request){
 
+        //je stocke le nom du fichier
+        $fileName = $article->getImage();
+
+        //si l'article a bien une image
+        if($article->getImage()){
+
+            //pour pouvoir générer le formulaire, on doit transformer le nom du fichier stocké pour l'instant dans l'attribut image en instance de la classe File (ce qui est attendu par le formulaire)
+            $article->setImage(new File($this->getParameter('articles_image_directory') . '/' . $article->getImage()));
+        }
+
 
         $form = $this->createForm(ArticleAdminType::class, $article);
 
@@ -86,7 +112,26 @@ class AdminController extends Controller
 
             $article = $form->getData();
 
-            //je n'ai plus qu'à persister ma catégorie et faire un flush
+            //je ne fais le traitement d'upload que si on m'a envoyé un fichier
+            if($article->getImage()){
+                //on récupère un objet de classe File
+                $file = $article->getImage();
+
+                //on génère un nouveau nom
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+
+                //je transfère le fichier
+                $file->move(
+                    $this->getParameter('articles_image_directory'),
+                    $fileName
+                );
+            }
+
+            //on met à jour la propriété image qui doit contenir le nom du fichier pour être persistée
+            //fileName contient soit le nouveau nom de fichier si on a reçu une nouvelle image, soit l'ancien si l'utilisateur n'a pas modifié l'image
+            $article->setImage($fileName);
+
+            //je n'ai plus qu'à persister mon article et faire un flush
             $entityManager = $this->getDoctrine()->getManager(); 
 
             $entityManager->flush();

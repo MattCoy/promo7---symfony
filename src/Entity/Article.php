@@ -48,6 +48,12 @@ class Article
     */
     private $category;
 
+    /**
+    *@ORM\Column(type="string")
+    *@Assert\Image(maxSize="1000k")
+    */
+    private $image;
+
     public function getId()
     {
         return $this->id;
@@ -111,5 +117,18 @@ class Article
         $this->category = $category;
 
         return $this;
+    }
+
+    public function getImage(){
+
+        return $this->image;
+
+    }
+
+    public function setImage($image){
+
+        $this->image = $image;
+        return $this;
+
     }
 }
