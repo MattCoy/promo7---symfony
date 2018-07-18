@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Article;
 use App\Form\ArticleAdminType;
 use Symfony\Component\HttpFoundation\File\File;
+use App\Service\FileUploader;
 
 class AdminController extends Controller
 {
@@ -29,7 +30,7 @@ class AdminController extends Controller
     *@Route("admin/article/add", name="admin-article-add")
     */
 
-    public function addArticle(Request $request){
+    public function addArticle(Request $request, FileUploader $uploader){
 
         $article = new Article();
 
@@ -50,13 +51,7 @@ class AdminController extends Controller
             $file = $article->getImage();
 
             //on génère un nouveau nom
-            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-
-            //pour upload définitivement le ficher
-            $file->move(
-                    $this->getparameter('articles_image_directory'),
-                    $fileName
-            );
+            $fileName = $uploader->upload($file);
 
             //on met à jour la propriété image, qui doit contenir le nom du fichier et pas le fichier lui même pour pouvoir persister l'article
             $article->setImage($fileName);
@@ -86,7 +81,7 @@ class AdminController extends Controller
     *@Route("admin/article/update/{id}", name="admin-article-update", requirements={"id"="\d+"})
     */
 
-    public function updateArticle(Article $article, Request $request){
+    public function updateArticle(Article $article, Request $request, FileUploader $uploader){
 
         //je stocke le nom du fichier
         $fileName = $article->getImage();
@@ -118,13 +113,7 @@ class AdminController extends Controller
                 $file = $article->getImage();
 
                 //on génère un nouveau nom
-                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-
-                //je transfère le fichier
-                $file->move(
-                    $this->getParameter('articles_image_directory'),
-                    $fileName
-                );
+                $fileName = $uploader->upload($file, $fileName);
             }
 
             //on met à jour la propriété image qui doit contenir le nom du fichier pour être persistée

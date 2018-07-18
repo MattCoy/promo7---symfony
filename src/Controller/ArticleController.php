@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Article as Article;
 use App\Form\ArticleUserType;
 use Symfony\Component\HttpFoundation\File\File;
+use App\Service\FileUploader;
 
 class ArticleController extends Controller
 {
@@ -33,7 +34,7 @@ class ArticleController extends Controller
     /**
     *@Route("/article/add", name="add-article")
     */
-    public function addArticle(Request $request)
+    public function addArticle(Request $request, FileUploader $uploader)
     {
 
         $this->denyAccessunlessgranted('IS_AUTHENTICATED_FULLY');
@@ -62,14 +63,8 @@ class ArticleController extends Controller
             //ceci va contenir l'image envoyée
             $file = $article->getImage();
 
-            //on génère un nouveau nom
-            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-
-            //pour upload définitivement le ficher
-            $file->move(
-                    $this->getparameter('articles_image_directory'),
-                    $fileName
-            );
+            //j'appelle mon service FileUploader
+            $fileName = $uploader->upload($file);
 
             //on met à jour la propriété image, qui doit contenir le nom du fichier et pas le fichier lui même pour pouvoir persister l'article
             $article->setImage($fileName);
@@ -175,7 +170,7 @@ class ArticleController extends Controller
     *@Route("article/update/{id}", name="article-update", requirements={"id"="\d+"})
     */
 
-    public function updateArticle(Article $article, request $request){
+    public function updateArticle(Article $article, Request $request, FileUploader $uploader){
 
         //je stocke le nom du fichier
         $fileName = $article->getImage();
@@ -205,14 +200,8 @@ class ArticleController extends Controller
                 //on récupère un objet de classe File
                 $file = $article->getImage();
 
-                //on génère un nouveau nom
-                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-
-                //je transfère le fichier
-                $file->move(
-                    $this->getParameter('articles_image_directory'),
-                    $fileName
-                );
+                //on utilise notre service FileUploader
+                $fileName = $uploader->upload($file, $fileName);
             }
 
             //on met à jour la propriété image qui doit contenir le nom du fichier pour être persistée
