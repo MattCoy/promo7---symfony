@@ -172,6 +172,9 @@ class ArticleController extends Controller
 
     public function updateArticle(Article $article, Request $request, FileUploader $uploader){
 
+        //j'utilise mon voter pour déterminer si l'utilisateur peut modifier cet article
+        $this->denyAccessUnlessGranted('edit', $article);
+
         //je stocke le nom du fichier
         $fileName = $article->getImage();
 
@@ -237,6 +240,9 @@ class ArticleController extends Controller
     */
 
     public function deleteArticle(Article $article){
+
+        //j'utilise mon voter pour déterminer si l'utilisateur peut supprimer cet article
+        $this->denyAccessUnlessGranted('delete', $article);
 
         //récupération de l'entity manager
          $entityManager = $this->getDoctrine()->getManager();
