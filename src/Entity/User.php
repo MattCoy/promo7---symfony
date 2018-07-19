@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -57,6 +58,12 @@ class User implements UserInterface, \Serializable
      * donc je ne le déclare pas en column doctrine
      */
     private $plainPassword;
+
+    /**
+    *@ORM\Column(type="string", nullable=true)
+    *@Assert\Image(maxSize="1000k")
+    */
+    private $image;
 
     //on écrit le constructeur pour mettre isActive  true lors de l'iinstanciation
     public function __construct(){
@@ -182,5 +189,18 @@ class User implements UserInterface, \Serializable
      */
     public function getArticles(): Collection{
         return $this->articles;
+    }
+
+    public function getImage(){
+
+        return $this->image;
+
+    }
+
+    public function setImage($image){
+
+        $this->image = $image;
+        return $this;
+
     }
 }

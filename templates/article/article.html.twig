@@ -12,7 +12,7 @@
 	 	{% if article.image %}
 
 	 	{# pour afficher l'image, on utilise asset() et on concatène le chemin avec le nom du fichier  (on concatène avec ~) #}
-	 	<img class="img-fluid" src="{{ asset('uploads/articles/images/' ~ article.image) }}">
+	 	<img class="img-fluid" src="{{ asset(image_directory ~ article.image) }}">
 
 	 	{% endif %}
 

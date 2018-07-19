@@ -20,7 +20,15 @@
 
 	{# moi.articles est rempli avec les articles :la requête de récupération des articles n'est exécutée que si on en a besoin #}
 	{{ dump(moi.articles) }}
+
+	{% if moi.image %}
+	<img class="img-fluid" src="{{ asset(image_directory ~ moi.image) }}">
+	{% endif %}
         
+	<form method="post" enctype="multipart/form-data">
+		<input type="file" name="image">
+		<button>Upload</button>
+	</form>
 
 	{#  dans une vue, si vous avez besoin de vérifier si l'utilisateur est connecté #}
 

@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use App\Service\FileUploader;
 
 //declaration de la classe
 //pour pouvoir utiliser Twig, on doit faire hériter notre classe de la classe Controller
@@ -176,7 +177,7 @@ class HomeController extends Controller
 	/**
 	*@Route("/user-info/", name="user-info")
 	*/
-	public function showUser(){
+	public function showUser(Request $request, FileUploader $uploader){
 
 		//pour vérifier si l'utilisateur est authentifié (quelque soit son rôle)
 		$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -184,6 +185,24 @@ class HomeController extends Controller
 		//pour récupérer l'objet $user (l'utilisateur connecté)
 		$moi = $this->getUser();
 		dump($moi);
+
+		//est-ce que on m'envoie une image
+		if($request->files->get('image')){
+
+			//je stocke dans cette variable le nom du fichier actuel qui doit être supprimé ou null s'il n'yen a pas
+			$oldFileName = $moi->getImage() ? $moi->getImage() : null;
+
+			//on procède au traitement
+			$fileName = $uploader->upload($request->files->get('image'), $oldFileName);
+
+			$moi->setImage($fileName);
+
+			$entityManager = $this->getDoctrine()->getManager();
+
+			$entityManager->flush();
+
+
+		}
 
 		return $this->render('user.info.html.twig', array('moi' => $moi));
 
