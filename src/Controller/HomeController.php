@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\FileUploader;
+Use App\Entity\User;
 
 //declaration de la classe
 //pour pouvoir utiliser Twig, on doit faire hériter notre classe de la classe Controller
@@ -23,8 +24,14 @@ class HomeController extends Controller
 		//on peut alors utiliser la méthode render() et travailler avec des fichiers html twig
 		//il va chercher le fichier dans /templates
 		//on peut passer des variables en paramètre :dans un tableau, en clé le nom de la variable disponible dans le fichier twig : ici dans twig, j'aurai accès à la vairable nom
+
+		//je récupère la liste des utilisateurs
+		$users = $this->getDoctrine()->getRepository(User::class)->findAll();
+
 		return $this->render('index.html.twig',
-								array('nom' => $pseudo)
+								array('nom' => $pseudo,
+										'users' => $users
+								)
 							);
 
 	}

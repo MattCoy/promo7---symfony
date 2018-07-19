@@ -78,6 +78,24 @@ class ArticleRepository extends ServiceEntityRepository
 
     }
 
+    /*
+    On écrit une méthode qui va faire la jointure entre les articles et les users, de façon a tout récupérer d'un coup
+    */
+    public function searchTitleLike($title){
+
+        $querybuilder = $this->createQuerybuilder('a')
+            ->innerJoin('a.user', 'u')
+            ->addSelect('u')
+            ->andWhere('a.title like :title')
+            ->setParameter('title', '%' . $title . '%')
+            //on peut trier
+            ->orderBy('a.date_publi', 'DESC')
+            ->getQuery();
+
+        return $querybuilder->execute();
+
+    }
+
 
 //    /**
 //     * @return Article[] Returns an array of Article objects

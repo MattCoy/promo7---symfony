@@ -19,6 +19,32 @@
 		{# #} {# commentaires 	#}
 
 		bonjour {{ nom }}
+		<div class="row">
+			<div class="col-md-6">
+				<select id="user-list" class="form-control">
+					<option value="0">Choisissez un auteur</option>
+                    {% for user in users %}
+						<option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endfor %}
+				</select>
+			</div>
+			<div class="col-md-6">
+				<input type="text" id="search-by-title" class="form-control">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div id="result"></div>
+				<hr>
+				<div id="result2"></div>
+			</div>
+
+			<div class="col-md-6">
+				<div id="result3"></div>
+			</div>
+		</div>
+
 
 		{# je peux inclure des templates (= vues twig) avec include() :si j'ai du code qui doit se retrouver sur plusieurs pages, cela vite la duplication de code #}
 		
@@ -27,4 +53,64 @@
 
 	{% block javascript %}
 		<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+		<script>
+			$(function(){
+				//au à la sélection d'un auteur dans ma liste déroulante
+				$('#user-list').on('change', function(){
+					//on génère la route, que l'on stocke dans une variable js
+					var url = "{{ path('ajax-search-by-author', {id:0})}}";
+
+					//lorsque l'utilisateur sélectionne un auteur, je remplace mon 0 par l'id sélectionné
+					url = url.replace('0', $(this).val())
+					$.ajax({
+						type: 'get',
+						url: url,
+						dataType: 'html',
+						success: function(data){
+							$('#result').html(data);
+						},
+						error: function(error){
+							console.log(error.responseText);
+						}
+					})
+
+					//requête ajax en post et avec json
+					$.ajax({
+						type: 'post',
+						url: "{{ path('ajax-search-by-author2')}}",
+						data: "idUser=" + $(this).val(),
+						timeout: 3000,
+						dataType: 'json',
+						success: function(data){
+							//console.log(data);
+							$('#result2').empty();
+							$.each(data.articles, function(i, article){
+								$('#result2').append($('<article>').html(article.title + "publié le " + article.datepubli + "<a href='" + article.url + "'>voir</a>"));
+								if(article.image){
+									$('#result2').append("<img src='/uploads/images/"+ article.image +"'>")
+								}
+							})
+						},
+						error: function(error){
+							console.log(error.responseText);
+						}
+
+					})
+
+				})
+
+				//lorsqu'on tape un titre dans le champ
+				$('#search-by-title').on('keyup', function() {
+				    console.log($(this).val());
+					//je ne lance la requête que si on a tapé au moins 3 lettres
+				    if($(this).val().length > 2){
+
+				        $('#result3').load("{{ path('ajax-search-by-title') }}?title=" + $(this).val());
+
+				    }
+
+				})
+
+			})
+		</script>
 	{% endblock %}
