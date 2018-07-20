@@ -86,7 +86,7 @@ class ArticleRepository extends ServiceEntityRepository
         $querybuilder = $this->createQuerybuilder('a')
             ->innerJoin('a.user', 'u')
             ->addSelect('u')
-            ->andWhere('a.title like :title')
+            ->andWhere('a.title LIKE :title')
             ->setParameter('title', '%' . $title . '%')
             //on peut trier
             ->orderBy('a.date_publi', 'DESC')

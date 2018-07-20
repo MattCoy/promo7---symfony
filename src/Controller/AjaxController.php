@@ -72,7 +72,7 @@ class AjaxController extends Controller
      */
     public function searchByTitle(Request $request){
 
-        $title = $request->query->get('title', null);
+        $title = $request->query->get('title', null);//=> $_GET['title']
 
         if(!$title){
 
